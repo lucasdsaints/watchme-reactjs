@@ -27,3 +27,15 @@ input, textarea {
 button {
   cursor: pointer;
 }
+
+.loading-section {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  svg {
+    max-width: 100px;
+  }
+}

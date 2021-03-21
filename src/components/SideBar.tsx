@@ -6,7 +6,7 @@ import '../styles/sidebar.scss';
 import { Genre } from '../models/genre.model';
 
 interface SideBarProps {
-  handleSelectGenre: (id: number) => void;
+  handleSelectGenre: (genre: Genre) => void;
 }
 
 export function SideBar({ handleSelectGenre }: SideBarProps) {
@@ -14,17 +14,19 @@ export function SideBar({ handleSelectGenre }: SideBarProps) {
   const [selectedGenreId, setselectedGenreId] = useState(0);
 
   useEffect(() => {
-    api.get<Genre[]>('genres').then((response) => {
-      console.log(response.data)
-      setGenres(response.data);
-      setselectedGenreId(response.data[0].id);
-      handleSelectGenre(response.data[0].id);
-    });
+    setTimeout(() => {
+      api.get<Genre[]>('genres').then((response) => {
+        console.log(response.data)
+        setGenres(response.data);
+        setselectedGenreId(response.data[0].id);
+        handleSelectGenre(response.data[0]);
+      });
+    }, 1500);
   }, []);
 
-  function handleSelectGenreButton(id: number) {
-    setselectedGenreId(id);
-    handleSelectGenre(id);
+  function handleSelectGenreButton(genre: Genre) {
+    setselectedGenreId(genre.id);
+    handleSelectGenre(genre);
   }
 
   return (
@@ -37,7 +39,7 @@ export function SideBar({ handleSelectGenre }: SideBarProps) {
             key={String(genre.id)}
             title={genre.title}
             iconName={genre.name}
-            onClick={() => handleSelectGenreButton(genre.id)}
+            onClick={() => handleSelectGenreButton(genre)}
             selected={selectedGenreId === genre.id}
           />
         ))}
